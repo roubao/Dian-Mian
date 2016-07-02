@@ -24,6 +24,8 @@ time complexity O(1), no space limit.
 
 public class AnagramOf {
 	Map<String, Set<String>> map;
+	Map<String, String> map1;
+	
 	public static void main(String[] args) {
 
 		AnagramOf af = new AnagramOf();
@@ -34,10 +36,12 @@ public class AnagramOf {
 	}
 	private void preprocess() {
 		map = new HashMap<>();
-		String input = "pots,spot,stop,tops,indicatory";
+		map1 = new HashMap<>();
+		String input = "post,pots,spot,stop,tops,indicatory,dictionary,anagram";
 		String[] sa = input.split(",");
 		for (String in : sa) {
 			String key = getAnagram(in);
+			map1.put(in, key);
 			if (map.containsKey(key)) {
 				map.get(key).add(in);
 			} else {
@@ -46,13 +50,11 @@ public class AnagramOf {
 				map.put(key, set);
 			}
 		}
-		System.out.println(map);
+		//System.out.println(map);
 	}
 	public  Set<String> anagramsOf(String word) {
-		String key = getAnagram(word);
-		Set<String> result = map.get(key);
-		if (result == null) 
-			return new HashSet<String>();
+		Set<String> result = map.get(map1.get(word));
+		result.remove(word);
 		return result;
 	}
 	private String getAnagram(String input) {
