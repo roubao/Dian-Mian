@@ -13,17 +13,15 @@ public class Main {
     // o(n) time:
     private static void findon(int[] input, int target) {
         int[] sumArray = new int[input.length];
-        List<Integer> sumList = new ArrayList<>();
-        Map<Integer, TreeSet<Integer>> map = new HashMap<>();
+        Map<Integer, Set<Integer>> map = new HashMap<>();
         for (int i = 0, sum = 0; i < input.length; i ++) {
             sum += input[i];
             sumArray[i] = sum;
-            sumList.add(sum);
             if (map.containsKey(sum)) {
                 Set tset = map.get(sum);
                 tset.add(i);
             } else {
-                TreeSet tset = new TreeSet<>();
+                Set tset = new HashSet<>();
                 tset.add(i);
                 map.put(sum, tset);
             }
@@ -31,8 +29,8 @@ public class Main {
         Set<Integer> kset = map.keySet();
         for (Integer ele : kset) {
             if (!kset.contains(ele + target)) continue;
-            TreeSet<Integer> iset = map.get(ele);
-            TreeSet<Integer> jset = map.get(ele + target);
+            Set<Integer> iset = map.get(ele);
+            Set<Integer> jset = map.get(ele + target);
             for (Integer iele : iset) {
                 for (Integer jele : jset) {
                     if (iele > jele) continue;
@@ -45,7 +43,7 @@ public class Main {
         }
         // from start to the ith node, the sum could be the target:
         if (kset.contains(target)) {
-            TreeSet<Integer> set = map.get(target);
+            Set<Integer> set = map.get(target);
             for (Integer ele : set) {
                 System.out.print("0 " + ele + " [");
                 int b1[] = Arrays.copyOfRange(input, 0, ele + 1 );
